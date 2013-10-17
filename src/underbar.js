@@ -18,8 +18,8 @@ var _ = { };
   _.first = function(array, n) {
     if(n === undefined) {
       return array[0];
-    } else {
-        return array.slice(0,n);
+    }else {
+      return array.slice(0,n);
     }   
   };
 
@@ -28,16 +28,26 @@ var _ = { };
   _.last = function(array, n) {
     if(n === undefined) {
       return array[array.length -1];
-    } else if (n > array.length) {
-        return array;
-    } else {
-        return array.slice(array.length -n, array.length);
+    }else if (n > array.length) {
+      return array;
+    }else {
+      return array.slice(array.length -n, array.length);
     }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
+    if(Array.isArray(collection)) {
+      for(var i=0; i<collection.length; i++) {
+        iterator(collection[i], i, collection);  
+      }
+    }else {
+      for(var item in collection) {
+        iterator(collection[item], item, collection);
+      }
+    }
+
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
