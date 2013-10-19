@@ -67,13 +67,13 @@ var _ = { };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
-    var result = [];
+    var results = [];
     _.each(collection, function(value, key, collection) {
       if(iterator(value)) {
-        result.push(value);
+        results.push(value);
       }
     })
-    return result;
+    return results;
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -84,6 +84,13 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var results = [];
+    _.each(array, function(value, key, collection) {
+      if(value === array[key] && results.indexOf(value) === -1) {
+        results.push(value);
+      }
+    })
+    return results;
   };
 
 
