@@ -80,6 +80,13 @@ var _ = { };
   _.reject = function(collection, iterator) {
     // TIP: see if you can re-use _.select() here, without simply
     // copying code in and modifying it
+    var results = [];
+    _.each(collection, function(value, key, collection) {
+      if(iterator(value) === false) {
+        results.push(value);
+      }
+    })
+    return results;
   };
 
   // Produce a duplicate-free version of the array.
@@ -99,6 +106,11 @@ var _ = { };
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var results = [];
+    _.each(array, function(value, key, collection) {
+      results.push(iterator(value));
+    })
+    return results;
   };
 
   /*
