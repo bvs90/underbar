@@ -156,8 +156,15 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
-    _.each(collection, function(item) {
-      initialValue = iterator(initialValue, item);
+    var allArgs = arguments.length > 2;
+
+    _.each(collection, function(value, item, collection) {
+      if(!allArgs) {
+        initialValue = value;
+        initialValue = iterator(initialValue, value);
+      } else {
+        initialValue = iterator(initialValue, value);
+      }
     })
     return initialValue;
   };
@@ -178,12 +185,22 @@ var _ = { };
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-  };
+    if(iterator === undefined) {
+      return true;
+    }
+    return _.reduce(collection, function(passed, item) {
+      if(!passed) {
+        return false;
+      }
+      return Boolean(iterator(item))
+    }, true);
+  };  
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
   };
 
 
