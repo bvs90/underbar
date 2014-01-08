@@ -137,7 +137,7 @@ var _ = { };
       if(typeof(methodName) === 'function') {
         return methodName.apply(value,args);
       }else {
-        return value[methodName].apply(value,args);
+        return value[methodName](value,args);
       }
     })
   };
@@ -360,6 +360,33 @@ var _ = { };
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+
+    // create sort func - search sorting objects in an array 
+    // case for iterator as function and another of iterator as string    
+    var sortFunc;
+    if(typeof iterator === 'string') {
+      sortFunc = function(a, b) {
+        if(a[iterator] < b[iterator]) {
+          return -1;
+        }
+        if(a[iterator] > b[iterator]) {
+          return 1;
+        }
+        return 0;
+      }
+    }else{
+      sortFunc = function(a, b) {
+        if(iterator(a) < iterator(b)) {
+          return -1;
+        }
+        if(iterator(a) > iterator(b)) {
+          return 1
+        }
+        return 0;
+      }
+    }
+
+    return collection.sort(sortFunc);
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -368,6 +395,14 @@ var _ = { };
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var results = [];
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    _.each(args, function(value, key, collection){
+      console.log(key)
+    })
+
+    return results;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
